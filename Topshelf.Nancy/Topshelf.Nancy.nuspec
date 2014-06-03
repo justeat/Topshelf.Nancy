@@ -12,11 +12,11 @@
         <releaseNotes></releaseNotes>
         <copyright>JUST EAT plc</copyright>
         <tags>nancy topshelf</tags>
+        <dependencies>
+            <dependency id="Nancy.Hosting.Self" />
+            <dependency id="Topshelf" />
+        </dependencies>
     </metadata>
-    <dependencies>
-       <dependency id="Nancy.Hosting.Self" />
-       <dependency id="Topshelf" />
-    </dependencies>
     <files>
         <file src="bin\$configuration$\Topshelf.Nancy.dll" target="lib\net40\Topshelf.Nancy.dll" />
     </files>

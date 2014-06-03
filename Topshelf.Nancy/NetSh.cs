@@ -6,7 +6,7 @@ namespace Topshelf.Nancy
     {
         private const string NETSH_COMMAND = "netsh";
 
-        public static bool DeleteUrlAcl(string url)
+        public static NetShResultCode DeleteUrlAcl(string url)
         {
             try
             {
@@ -15,14 +15,46 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NETSH_COMMAND, arguments, out output))
-                    return true;
+                    return NetShResultCode.Success;
+                ;
 
-                return FailedBecauseUrlReservationDidNotExist(output);
+                if (FailedBecauseUrlReservationDidNotExist(output))
+                {
+                    return NetShResultCode.UrlReservationDoesNotExist;
+                }
             }
             catch (Exception)
             {
-                return false;
+                return NetShResultCode.Error;
             }
+
+            return NetShResultCode.Error;
+        }
+
+        public static NetShResultCode AddUrlAcl(string url, string user)
+        {
+            try
+            {
+                var arguments = GetAddParameters(url, user);
+
+                string output;
+
+                if (UacHelper.RunElevated(NETSH_COMMAND, arguments, out output))
+                    return NetShResultCode.Success;
+
+
+                if (FailedBecauseUrlReservationAlreadyExists(output))
+                {
+                    return NetShResultCode.UrlReservationAlreadyExists;
+                }
+
+            }
+            catch (Exception)
+            {
+                return NetShResultCode.Error;
+            }
+
+            return NetShResultCode.Error;
         }
 
         public static string GetDeleteParameters(string url)
@@ -30,10 +62,19 @@ namespace Topshelf.Nancy
             return string.Format("http delete urlacl url={0}", url);
         }
 
+        public static string GetAddParameters(string url, string user)
+        {
+            return string.Format("http add urlacl url={0} user={1}", url, user);
+        }
+
         private static bool FailedBecauseUrlReservationDidNotExist(string netshProcessOutput)
         {
             return netshProcessOutput.Contains("Error: 2");
         }
 
+        private static bool FailedBecauseUrlReservationAlreadyExists(string netshProcessOutput)
+        {
+            return netshProcessOutput.Contains("Error: 183");
+        }
     }
 }

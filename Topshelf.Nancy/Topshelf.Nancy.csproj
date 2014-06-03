@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NetSh.cs" />
+    <Compile Include="NetShResultCode.cs" />
     <Compile Include="UacHelper.cs" />
     <Compile Include="NancyConfigurator.cs" />
     <Compile Include="NancyService.cs" />

@@ -6,7 +6,7 @@ namespace Topshelf.Nancy
     {
         private const string NETSH_COMMAND = "netsh";
 
-        public static NetShResultCode DeleteUrlAcl(string url)
+        public static NetShResult DeleteUrlAcl(string url)
         {
             try
             {
@@ -15,23 +15,23 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NETSH_COMMAND, arguments, out output))
-                    return NetShResultCode.Success;
-                ;
+                    return new NetShResult(NetShResultCode.Success, output);
 
                 if (FailedBecauseUrlReservationDidNotExist(output))
                 {
-                    return NetShResultCode.UrlReservationDoesNotExist;
+                    return new NetShResult(NetShResultCode.UrlReservationDoesNotExist, output);
                 }
-            }
-            catch (Exception)
-            {
-                return NetShResultCode.Error;
-            }
 
-            return NetShResultCode.Error;
+
+                return new NetShResult(NetShResultCode.Error, output);
+            }
+            catch (Exception ex)
+            {
+                return new NetShResult(NetShResultCode.Error, ex.Message);
+            }
         }
 
-        public static NetShResultCode AddUrlAcl(string url, string user)
+        public static NetShResult AddUrlAcl(string url, string user)
         {
             try
             {
@@ -40,21 +40,21 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NETSH_COMMAND, arguments, out output))
-                    return NetShResultCode.Success;
+                    return new NetShResult(NetShResultCode.Success, output);
 
 
                 if (FailedBecauseUrlReservationAlreadyExists(output))
                 {
-                    return NetShResultCode.UrlReservationAlreadyExists;
+                    return new NetShResult(NetShResultCode.UrlReservationAlreadyExists, output);
                 }
 
-            }
-            catch (Exception)
-            {
-                return NetShResultCode.Error;
-            }
+                return new NetShResult(NetShResultCode.Error, output);
 
-            return NetShResultCode.Error;
+            }
+            catch (Exception ex)
+            {
+                return new NetShResult(NetShResultCode.Error, ex.Message);
+            };
         }
 
         public static string GetDeleteParameters(string url)
@@ -75,6 +75,18 @@ namespace Topshelf.Nancy
         private static bool FailedBecauseUrlReservationAlreadyExists(string netshProcessOutput)
         {
             return netshProcessOutput.Contains("Error: 183");
+        }
+    }
+
+    public class NetShResult
+    {
+        public string Message { get; protected set; }
+        public NetShResultCode ResultCode { get; set; }
+
+        public NetShResult(NetShResultCode resultCode, string message)
+        {
+            ResultCode = resultCode;
+            Message = message;
         }
     }
 }

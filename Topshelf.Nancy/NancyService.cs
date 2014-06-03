@@ -61,13 +61,13 @@ namespace Topshelf.Nancy
             {
                 var result = NetSh.DeleteUrlAcl(prefix);
 
-                if (result == NetShResultCode.Error)
+                if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error("[Topshelf.Nancy] Error deleting URL Reservation");
+                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation. {0}", result.Message));
                     return false;
                 }
 
-                if (result == NetShResultCode.UrlReservationDoesNotExist)
+                if (result.ResultCode == NetShResultCode.UrlReservationDoesNotExist)
                 {
                     Logger.Warn("[Topshelf.Nancy] Could not delete URL Reservation becuase it does not exist. Treating as a success.");
                 }
@@ -87,13 +87,13 @@ namespace Topshelf.Nancy
             foreach (var prefix in GetPrefixes())
             {
                 var result = NetSh.AddUrlAcl(prefix, user);
-                if (result == NetShResultCode.Error)
+                if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error("[Topshelf.Nancy] Error adding URL Reservations");
+                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation. {0}", result.Message));
                     return false;
                 }
 
-                if (result == NetShResultCode.UrlReservationAlreadyExists)
+                if (result.ResultCode == NetShResultCode.UrlReservationAlreadyExists)
                 {
                     Logger.Warn("[Topshelf.Nancy] Could not add URL Reservation becuase it already exists. Treating as a success.");
                     return true;

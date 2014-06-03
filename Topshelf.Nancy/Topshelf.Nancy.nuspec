@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package>
+    <metadata>
+        <id>Topshelf.Nancy</id>
+        <version>$version$</version>
+        <authors>JUST EAT plc</authors>
+        <owners>JUST EAT plc</owners>
+        <projectUrl>https://github.com/justeat/topshelf.nanacy</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Nancy endpoint for the Topshelf service host providing additional support around URL reservations</description>
+        <summary>Nancy endpoint for the Topshelf service host</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>JUST EAT plc</copyright>
+        <tags>nancy topshelf</tags>
+    </metadata>
+    <dependencies>
+       <dependency id="Nancy.Hosting.Self" />
+       <dependency id="Topshelf" />
+    </dependencies>
+    <files>
+        <file src="bin\$configuration$\Topshelf.Nancy.dll" target="lib\net40\Topshelf.Nancy.dll" />
+    </files>
+</package>

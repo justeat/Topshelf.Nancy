@@ -19,5 +19,6 @@
     </metadata>
     <files>
         <file src="bin\$configuration$\Topshelf.Nancy.dll" target="lib\net40\Topshelf.Nancy.dll" />
+        <file src="bin\$configuration$\Topshelf.Nancy.pdb" target="lib\net40\Topshelf.Nancy.pdb" />
     </files>
 </package>

@@ -46,12 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NetSh.cs" />
+    <Compile Include="NetShResult.cs" />
     <Compile Include="NetShResultCode.cs" />
     <Compile Include="UacHelper.cs" />
-    <Compile Include="NancyConfigurator.cs" />
+    <Compile Include="NancyServiceConfiguration.cs" />
     <Compile Include="NancyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NancyServiceConfiguratorExtensions.cs" />
+    <Compile Include="UrlReservationsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

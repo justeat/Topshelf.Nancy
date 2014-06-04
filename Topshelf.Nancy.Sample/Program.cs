@@ -17,6 +17,7 @@
                     {
                         c.AddHost(port: 20005);
                         c.AddHost(port: 20006);
+                        c.CreateUrlReservationsOnInstall();
                     });
                 });
                 x.StartAutomatically();

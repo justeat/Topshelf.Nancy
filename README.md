@@ -1,6 +1,6 @@
 Topshelf.Nancy
 ==========
-_A Topshelf extension providing a Nancy endpoint for your Topshelf windows service_
+_A Topshelf extension providing a Nancy endpoint for your Windows service_
 
 ---
 
@@ -13,8 +13,7 @@ _A Topshelf extension providing a Nancy endpoint for your Topshelf windows servi
 
 Topshelf.Nancy is an extension to Topshelf that allows you to to serve content over http via Nanacy.  This is done by configuring a hosta nd port for nanacy to listen onto a NancyModule which serves your content.
 
-Topshelf.Nancy was written to was written to provide an easily repeatable way to add a Nancy endpoint to Windows services configured via Topshelf.  This includes configuring URL reservations which would otherwise have to be manually configured.
-		
+Topshelf.Nancy was written to was written to provide a way to add a Nancy endpoint to a Windows service configured via Topshelf.
 
 ## Installation
 
@@ -55,6 +54,27 @@ Once you have the package installed into your test project, a standard wireup wi
 	host.Run();
 ```
 A sample project is provided in the repository.
+
+## Documentation
+
+### URL Reservations
+
+When you host a website within IIS, reserving a URL so that traffic is directed to your IIS website and not a different website on the machine is done for you.  It's something you don't event think about. This is called a URL Reservation, and a new URL Reservation is added via the command `netsh http add url=url user=user`
+
+The Nancy Self Host does this for you too, however `netsh` needs Administrator privileges. Normally Windows services run in a less permissive context (as Network Service or Local Service) so the only time to add a URL Reservation is during install as installing a service requires Administrator privileges.  
+
+If your service is running with restrictive permissions then you can specify that URL Reservations be created at install time like so. 
+
+```csharp
+s.WithNancyEndpoint(x, c =>
+{
+    c.AddHost(port: 8080);
+	c.CreateUrlReservationsOnInstall();
+});
+	
+```
+
+By default any URL Reservations added will also be deleted when the service is unintalled.
 
 ## Contributing
 

@@ -6,33 +6,23 @@ namespace Topshelf.Nancy
 {
     public static class NancyServiceConfiguratorExtensions
     {
-        public static ServiceConfigurator<T> WithNancyEndpoint<T>(this ServiceConfigurator<T> configurator, HostConfigurator hostconfigurator, Action<NancyConfigurator> nancyConfigurator) where T : class
+        public static ServiceConfigurator<T> WithNancyEndpoint<T>(this ServiceConfigurator<T> configurator, HostConfigurator hostconfigurator, Action<NancyServiceConfiguration> nancyConfigurator) where T : class
         {
-            var nancyWrapperConfiguration = new NancyConfigurator();
+            var nancyServiceConfiguration = new NancyServiceConfiguration();
 
-            nancyConfigurator(nancyWrapperConfiguration);
+            nancyConfigurator(nancyServiceConfiguration);
 
             var nancyService = new NancyService();
 
-            nancyService.Configure(nancyWrapperConfiguration);
+            nancyService.Configure(nancyServiceConfiguration);
 
             configurator.AfterStartingService(t => nancyService.Start());
 
-            configurator.BeforeStoppingService(t =>
-            {
-                nancyService.Stop();
-            });
+            configurator.BeforeStoppingService(t => nancyService.Stop());
 
-            hostconfigurator.BeforeInstall(x =>
-            {
-                nancyService.TryDeleteUrlReservations();
-                nancyService.AddUrlReservations();
-            });
+            hostconfigurator.BeforeInstall(x => nancyService.BeforeInstall());
 
-            hostconfigurator.BeforeUninstall(() =>
-            {
-                nancyService.TryDeleteUrlReservations();
-            });
+            hostconfigurator.BeforeUninstall(nancyService.BeforeUninstall);
 
             return configurator;
         }

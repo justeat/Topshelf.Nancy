@@ -121,6 +121,12 @@ namespace Topshelf.Nancy
             {
                 var prefix = baseUri.ToString();
 
+                if (baseUri.IsDefaultPort)
+                {
+                    prefix = prefix.Replace(baseUri.Host, string.Format("{0}:{1}", baseUri.Host, baseUri.Port));
+
+                }
+
                 if (HostConfiguration.RewriteLocalhost && !baseUri.Host.Contains("."))
                 {
                     prefix = prefix.Replace("localhost", "+");

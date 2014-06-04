@@ -11,7 +11,7 @@ _A Topshelf extension providing a Nancy endpoint for your Windows service_
 * Contributing
 * Copyright
 
-Topshelf.Nancy is an extension to Topshelf that allows you to to serve content over http via Nanacy.  This is done by configuring a host and port for Nancy to listen onto via a NancyModule which serves your content.
+Topshelf.Nancy is an extension to Topshelf that allows you to to serve content over http via Nancy.  This is done by configuring a host and port for Nancy to listen onto via a NancyModule which serves your content.
 
 ## Installation
 

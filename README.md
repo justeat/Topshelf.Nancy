@@ -11,9 +11,7 @@ _A Topshelf extension providing a Nancy endpoint for your Windows service_
 * Contributing
 * Copyright
 
-Topshelf.Nancy is an extension to Topshelf that allows you to to serve content over http via Nanacy.  This is done by configuring a hosta nd port for nanacy to listen onto a NancyModule which serves your content.
-
-Topshelf.Nancy was written to was written to provide a way to add a Nancy endpoint to a Windows service configured via Topshelf.
+Topshelf.Nancy is an extension to Topshelf that allows you to to serve content over http via Nanacy.  This is done by configuring a host and port for Nancy to listen onto via a NancyModule which serves your content.
 
 ## Installation
 
@@ -29,7 +27,7 @@ Via NuGet:
 
 ## Getting Started
 
-Once you have the package installed into your test project, a standard wireup will look like this.
+Once you have the package installed into your test project, a standard wire-up will look like this.
 
 ```csharp
 	var host = HostFactory.New(x =>
@@ -74,7 +72,7 @@ s.WithNancyEndpoint(x, c =>
 	
 ```
 
-By default any URL Reservations added will also be deleted when the service is unintalled.
+By default any URL Reservations added will also be deleted when the service is uninstalled.
 
 ## Contributing
 

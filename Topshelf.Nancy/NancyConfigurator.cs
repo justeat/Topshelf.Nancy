@@ -23,9 +23,9 @@ namespace Topshelf.Nancy
             NancyHostConfigurator = nancyHostConfigurator;
 		}
 
-		public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080, string path = "/")
+		public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080)
 		{
-            Uris.Add(new UriBuilder(scheme, domain, port, path).Uri);
+            Uris.Add(new UriBuilder(scheme, domain, port).Uri);
 		}
 	}
 }

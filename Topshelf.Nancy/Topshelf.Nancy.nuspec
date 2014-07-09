@@ -5,7 +5,7 @@
         <version>$version$</version>
         <authors>JUST EAT plc</authors>
         <owners>JUST EAT plc</owners>
-        <projectUrl>https://github.com/justeat/topshelf.nanacy</projectUrl>
+        <projectUrl>https://github.com/justeat/topshelf.nancy</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Nancy endpoint for the Topshelf service host providing additional support around URL reservations</description>
         <summary>Nancy endpoint for the Topshelf service host</summary>

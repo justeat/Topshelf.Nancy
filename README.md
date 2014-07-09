@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/pa8wocs17k5ts2c7)](https://ci.appveyor.com/project/justeattech/topshelf-nancy)
+
 Topshelf.Nancy
 ==========
 _A Topshelf extension providing a Nancy endpoint for your Windows service_

@@ -36,16 +36,16 @@ namespace Topshelf.Nancy
 
         public void Start()
         {
-            Logger.Info("[Topshelf.Nancy] Starting NanacyHost");
+            Logger.Info("[Topshelf.Nancy] Starting NancyHost");
             NancyHost.Start();
-            Logger.Info("[Topshelf.Nancy] NanacyHost started");
+            Logger.Info("[Topshelf.Nancy] NancyHost started");
         }
 
         public void Stop()
         {
-            Logger.Info("[Topshelf.Nancy] Stopping NanacyHost");
+            Logger.Info("[Topshelf.Nancy] Stopping NancyHost");
             NancyHost.Stop();
-            Logger.Info("[Topshelf.Nancy] NanacyHost stopped");
+            Logger.Info("[Topshelf.Nancy] NancyHost stopped");
         }
 
         public void BeforeInstall()

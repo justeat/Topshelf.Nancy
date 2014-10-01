@@ -2,6 +2,7 @@
 
 Topshelf.Nancy
 ==========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/justeat/Topshelf.Nancy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 _A Topshelf extension providing a Nancy endpoint for your Windows service_
 
 ---

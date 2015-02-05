@@ -15,7 +15,7 @@ namespace Topshelf.Nancy
 
         /// <summary>
         /// Determines if URL Resverations should be created automatically when the services installs.  
-        /// Else Nanacy will try and create the URL Reservation when it starts.  
+        /// Else Nancy will try and create the URL Reservation when it starts.  
         /// Adding URL Reservations require Adminstrative priviliages, so this is useful
         /// for when the service runs with a more restrictive use (i.e. as the Network Service).
         /// </summary>

@@ -44,7 +44,26 @@ namespace Topshelf.Nancy
             return true;
         }
 
-        public bool AddUrlReservations()
+        public bool OpenFirewallPorts(IEnumerable<int> ports, string firewallRuleName)
+        {
+            Logger.Info("[Topshelf.Nancy] Opening firewall ports");
+
+            var user = GetUser();
+
+            var portList = string.Join(",", ports);
+
+            var result = NetSh.OpenFirewallPorts(portList, user, firewallRuleName);
+            if (result.ResultCode == NetShResultCode.Error)
+            {
+                Logger.Error(string.Format("[Topshelf.Nancy] Error opening firewall port: netsh {0}. {1}", result.CommandRan, result.Message));
+                return false;
+            }
+
+            Logger.Info(string.Format("[Topshelf.Nancy] Firewall ports opened: {0}", portList));
+            return true;
+        }
+
+        public bool AddUrlReservations(bool shouldOpenFirewallPorts = false)
         {
             Logger.Info("[Topshelf.Nancy] Adding URL Reservations");
 

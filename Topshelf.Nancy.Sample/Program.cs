@@ -18,6 +18,7 @@
                         c.AddHost(port: 20005);
                         c.AddHost(port: 20006);
                         c.CreateUrlReservationsOnInstall();
+                        c.OpenFirewallPortsOnInstall(firewallRuleName: "topshelf.nancy.sampleservice");
                     });
                 });
                 x.StartAutomatically();

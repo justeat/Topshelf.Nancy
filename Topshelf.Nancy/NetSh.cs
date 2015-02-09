@@ -22,7 +22,6 @@ namespace Topshelf.Nancy
                     return new NetShResult(NetShResultCode.UrlReservationDoesNotExist, output, arguments);
                 }
 
-
                 return new NetShResult(NetShResultCode.Error, output, arguments);
             }
             catch (Exception ex)
@@ -55,6 +54,33 @@ namespace Topshelf.Nancy
             {
                 return new NetShResult(NetShResultCode.Error, ex.Message, arguments);
             };
+        }
+
+        public static NetShResult OpenFirewallPorts(string portList, string username, string firewallRuleName)
+        {
+            var arguments = GetFirewallParameters(portList, firewallRuleName);
+
+            try
+            {
+                string output;
+
+                if (UacHelper.RunElevated(NetshCommand, arguments, out output))
+                    return new NetShResult(NetShResultCode.Success, output, arguments);
+
+                return new NetShResult(NetShResultCode.Error, output, arguments);
+
+            }
+            catch (Exception ex)
+            {
+                return new NetShResult(NetShResultCode.Error, ex.Message, arguments);
+            };
+        }
+
+        private static string GetFirewallParameters(string portList, string firewallRuleName)
+        {
+            return string.Format(
+                "advfirewall firewall add rule name=\"{0}\" dir=in protocol=TCP localport=\"{1}\" action=allow",
+                firewallRuleName, portList);
         }
 
         public static string GetDeleteParameters(string url)

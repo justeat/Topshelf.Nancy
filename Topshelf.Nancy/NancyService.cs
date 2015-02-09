@@ -1,4 +1,6 @@
-﻿using Nancy;
+﻿using System;
+using System.Linq;
+using Nancy;
 using Nancy.Hosting.Self;
 using Topshelf.Logging;
 
@@ -53,7 +55,15 @@ namespace Topshelf.Nancy
             if (NancyServiceConfiguration.ShouldCreateUrlReservationsOnInstall)
             {
                 _urlReservationsHelper.TryDeleteUrlReservations();
+
+                if (NancyServiceConfiguration.ShouldOpenFirewallPorts)
+                {
+                    var ports = NancyServiceConfiguration.Uris.Select(x => x.Port).ToList();
+                    _urlReservationsHelper.OpenFirewallPorts(ports, NancyServiceConfiguration.FirewallRuleName);
+                }
+
                 _urlReservationsHelper.AddUrlReservations();
+
             }
         }
 

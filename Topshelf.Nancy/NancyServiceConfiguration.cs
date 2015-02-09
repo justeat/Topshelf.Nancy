@@ -5,13 +5,14 @@ using Nancy.Hosting.Self;
 namespace Topshelf.Nancy
 {
     public class NancyServiceConfiguration
-	{
-		
+    {
         internal List<Uri> Uris { get; set; }
         internal Action<HostConfiguration> NancyHostConfigurator { get; set; }
 
         internal bool ShouldCreateUrlReservationsOnInstall { get; set; }
         internal bool ShouldDeleteReservationsOnUnInstall { get; set; }
+        public bool ShouldOpenFirewallPorts { get; set; }
+        public string FirewallRuleName { get; set; }
 
         /// <summary>
         /// Determines if URL Resverations should be created automatically when the services installs.  
@@ -23,6 +24,16 @@ namespace Topshelf.Nancy
         {
             ShouldCreateUrlReservationsOnInstall = true;
             ShouldDeleteReservationsOnUnInstall = true;
+        }
+
+        /// <summary>
+        /// Opens the firewall ports on install. The ports are opened only when the CreateUrlReservationsOnInstall is called as well.
+        /// </summary>
+        /// <param name="firewallRuleName">The name of the firewall rule</param>
+        public void OpenFirewallPortsOnInstall(string firewallRuleName)
+        {
+            ShouldOpenFirewallPorts = true;
+            FirewallRuleName = firewallRuleName;
         }
 
         /// <summary>

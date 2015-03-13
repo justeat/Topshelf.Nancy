@@ -32,7 +32,12 @@ namespace Topshelf.Nancy
 
             _urlReservationsHelper = new UrlReservationsHelper(NancyServiceConfiguration.Uris, NancyHostConfiguration);
 
-            NancyHost = new NancyHost(NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
+            if (NancyServiceConfiguration.Bootstrapper != null) {
+                NancyHost = new NancyHost(NancyServiceConfiguration.Bootstrapper, NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
+            } else {
+                NancyHost = new NancyHost(NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
+            }
+
             return NancyHost;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Nancy.Bootstrapper;
 using Nancy.Hosting.Self;
 
 namespace Topshelf.Nancy
@@ -13,6 +14,7 @@ namespace Topshelf.Nancy
         internal bool ShouldDeleteReservationsOnUnInstall { get; set; }
         public bool ShouldOpenFirewallPorts { get; set; }
         public string FirewallRuleName { get; set; }
+        public INancyBootstrapper Bootstrapper { get; set; }
 
         /// <summary>
         /// Determines if URL Resverations should be created automatically when the services installs.  
@@ -69,5 +71,15 @@ namespace Topshelf.Nancy
 		{
             Uris.Add(new UriBuilder(scheme, domain, port).Uri);
 		}
+
+        /// <summary>
+        /// Set the INancyBootstrapper instance that Nancy will use.
+        /// If a bootstrapper is not configured here, Nancy will attempt to automatically locate one.
+        /// </summary>
+        /// <param name="bootstrapper">The bootstrapper to use.</param>
+        public void UseBootstrapper (INancyBootstrapper bootstrapper)
+        {
+            Bootstrapper = bootstrapper;
+        }
 	}
 }

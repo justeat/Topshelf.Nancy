@@ -35,7 +35,7 @@ namespace Topshelf.Nancy
 
                 if (result.ResultCode == NetShResultCode.UrlReservationDoesNotExist)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not delete URL Reservation becuase it does not exist. Treating as a success.");
+                    Logger.Warn("[Topshelf.Nancy] Could not delete URL Reservation because it does not exist. Treating as a success.");
                 }
             }
 

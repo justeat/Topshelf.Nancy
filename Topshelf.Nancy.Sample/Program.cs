@@ -1,4 +1,6 @@
-﻿namespace Topshelf.Nancy.Sample
+﻿using Topshelf.Nancy;
+
+namespace Topshelf.Nancy.Sample
 {
     class Program
     {

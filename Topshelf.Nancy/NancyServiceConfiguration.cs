@@ -67,9 +67,10 @@ namespace Topshelf.Nancy
         /// <param name="scheme">http or https. Defaults to http.</param>
         /// <param name="domain">The domain to listen on e.g. www.mydomain.com. Defaults to localhost.</param>
         /// <param name="port">The port to listen on. Defaults to 8080.</param>
-		public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080)
+        /// <param name="path">The path component. Defaults to an empty string.</param>
+		public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080, string path = "")
 		{
-            Uris.Add(new UriBuilder(scheme, domain, port).Uri);
+            Uris.Add(new UriBuilder(scheme, domain, port, path).Uri);
 		}
 
         /// <summary>

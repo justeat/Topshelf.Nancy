@@ -8,7 +8,7 @@ namespace Topshelf.Nancy
 {
     internal class NancyService
     {
-        private NancyHost NancyHost { get; set; }
+        private Lazy<NancyHost> NancyHost { get; set; }
 
         private HostConfiguration NancyHostConfiguration { get; set; }
 
@@ -17,14 +17,13 @@ namespace Topshelf.Nancy
         private static readonly LogWriter Logger = HostLogger.Get(typeof(NancyService));
         private UrlReservationsHelper _urlReservationsHelper;
 
-        public NancyHost Configure(NancyServiceConfiguration nancyServiceConfiguration)
+        public void Configure(NancyServiceConfiguration nancyServiceConfiguration)
         {
-
             var nancyHostConfiguration = new HostConfiguration();
 
             if (nancyServiceConfiguration.NancyHostConfigurator != null)
             {
-                nancyServiceConfiguration.NancyHostConfigurator(nancyHostConfiguration);
+              nancyServiceConfiguration.NancyHostConfigurator(nancyHostConfiguration);
             }
 
             NancyServiceConfiguration = nancyServiceConfiguration;
@@ -32,26 +31,30 @@ namespace Topshelf.Nancy
 
             _urlReservationsHelper = new UrlReservationsHelper(NancyServiceConfiguration.Uris, NancyHostConfiguration);
 
-            if (NancyServiceConfiguration.Bootstrapper != null) {
-                NancyHost = new NancyHost(NancyServiceConfiguration.Bootstrapper, NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
-            } else {
-                NancyHost = new NancyHost(NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
-            }
 
-            return NancyHost;
+            NancyHost = new Lazy<NancyHost>(() => {
+                if (NancyServiceConfiguration.Bootstrapper != null)
+                {
+                  return new NancyHost(NancyServiceConfiguration.Bootstrapper, NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
+                }
+                else
+                {
+                  return new NancyHost(NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
+                }
+              });
         }
 
         public void Start()
         {
             Logger.Info("[Topshelf.Nancy] Starting NancyHost");
-            NancyHost.Start();
+            NancyHost.Value.Start();
             Logger.Info("[Topshelf.Nancy] NancyHost started");
         }
 
         public void Stop()
         {
             Logger.Info("[Topshelf.Nancy] Stopping NancyHost");
-            NancyHost.Stop();
+            NancyHost.Value.Stop();
             Logger.Info("[Topshelf.Nancy] NancyHost stopped");
         }
 

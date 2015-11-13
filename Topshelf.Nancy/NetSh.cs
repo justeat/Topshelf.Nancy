@@ -15,7 +15,9 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NetshCommand, arguments, out output))
+                {
                     return new NetShResult(NetShResultCode.Success, output, arguments);
+                }
 
                 if (FailedBecauseUrlReservationDidNotExist(output))
                 {
@@ -39,7 +41,9 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NetshCommand, arguments, out output))
+                {
                     return new NetShResult(NetShResultCode.Success, output, arguments);
+                }
 
 
                 if (FailedBecauseUrlReservationAlreadyExists(output))
@@ -65,7 +69,9 @@ namespace Topshelf.Nancy
                 string output;
 
                 if (UacHelper.RunElevated(NetshCommand, arguments, out output))
+                {
                     return new NetShResult(NetShResultCode.Success, output, arguments);
+                }
 
                 return new NetShResult(NetShResultCode.Error, output, arguments);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Nancy;
 using Nancy.Hosting.Self;
 using Topshelf.Logging;
 
@@ -31,17 +30,19 @@ namespace Topshelf.Nancy
 
             _urlReservationsHelper = new UrlReservationsHelper(NancyServiceConfiguration.Uris, NancyHostConfiguration);
 
+            NancyHost = new Lazy<NancyHost>(CreateNancyHost);
+        }
 
-            NancyHost = new Lazy<NancyHost>(() => {
-                if (NancyServiceConfiguration.Bootstrapper != null)
-                {
-                  return new NancyHost(NancyServiceConfiguration.Bootstrapper, NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
-                }
-                else
-                {
-                  return new NancyHost(NancyHostConfiguration, NancyServiceConfiguration.Uris.ToArray());
-                }
-              });
+        private NancyHost CreateNancyHost()
+        {
+            var uris = NancyServiceConfiguration.Uris.ToArray();
+
+            if (NancyServiceConfiguration.Bootstrapper != null)
+            {
+                return new NancyHost(NancyServiceConfiguration.Bootstrapper, NancyHostConfiguration, uris);
+            }
+
+            return new NancyHost(NancyHostConfiguration, uris);
         }
 
         public void Start()
@@ -71,7 +72,6 @@ namespace Topshelf.Nancy
                 }
 
                 _urlReservationsHelper.AddUrlReservations();
-
             }
         }
 

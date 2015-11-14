@@ -57,9 +57,9 @@ namespace Topshelf.Nancy
         /// </summary>
         /// <param name="nancyHostConfigurator">An action which configures Nancy.Hosting.Self.HostConfiguration</param>
         public void ConfigureNancy(Action<HostConfiguration> nancyHostConfigurator)
-		{
+        {
             NancyHostConfigurator = nancyHostConfigurator;
-		}
+        }
 
         /// <summary>
         /// Adds a new Host for Nancy to listen on.
@@ -68,10 +68,10 @@ namespace Topshelf.Nancy
         /// <param name="domain">The domain to listen on e.g. www.mydomain.com. Defaults to localhost.</param>
         /// <param name="port">The port to listen on. Defaults to 8080.</param>
         /// <param name="path">The path component. Defaults to an empty string.</param>
-		public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080, string path = "")
-		{
+        public void AddHost(string scheme = "http", string domain = "localhost", int port = 8080, string path = "")
+        {
             Uris.Add(new UriBuilder(scheme, domain, port, path).Uri);
-		}
+        }
 
         /// <summary>
         /// Set the INancyBootstrapper instance that Nancy will use.
@@ -82,5 +82,5 @@ namespace Topshelf.Nancy
         {
             Bootstrapper = bootstrapper;
         }
-	}
+    }
 }

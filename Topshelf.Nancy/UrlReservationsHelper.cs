@@ -80,7 +80,7 @@ namespace Topshelf.Nancy
 
                 if (result.ResultCode == NetShResultCode.UrlReservationAlreadyExists)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not add URL Reservation becuase it already exists. Treating as a success.");
+                    Logger.Warn("[Topshelf.Nancy] Could not add URL Reservation because it already exists. Treating as a success.");
                     return true;
                 }
             }

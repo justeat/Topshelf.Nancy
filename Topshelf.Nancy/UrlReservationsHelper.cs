@@ -74,7 +74,7 @@ namespace Topshelf.Nancy
                 var result = NetSh.AddUrlAcl(prefix, user);
                 if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
+                    Logger.Error(string.Format("[Topshelf.Nancy] Error adding URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
                     return false;
                 }
 

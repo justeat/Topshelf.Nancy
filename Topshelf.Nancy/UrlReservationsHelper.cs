@@ -29,13 +29,15 @@ namespace Topshelf.Nancy
 
                 if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
+                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation {0} with command: netsh {1}. {2}",
+                        prefix, result.CommandRan, result.Message));
                     return false;
                 }
 
                 if (result.ResultCode == NetShResultCode.UrlReservationDoesNotExist)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not delete URL Reservation because it does not exist. Treating as a success.");
+                    Logger.Warn(string.Format("[Topshelf.Nancy] Could not delete URL Reservation {0} because it does not exist. Treating as a success.", 
+                        prefix));
                 }
             }
 
@@ -55,7 +57,8 @@ namespace Topshelf.Nancy
             var result = NetSh.OpenFirewallPorts(portList, user, firewallRuleName);
             if (result.ResultCode == NetShResultCode.Error)
             {
-                Logger.Error(string.Format("[Topshelf.Nancy] Error opening firewall port: netsh {0}. {1}", result.CommandRan, result.Message));
+                Logger.Error(string.Format("[Topshelf.Nancy] Error opening firewall ports {0}: netsh {1}. {2}", 
+                    portList, result.CommandRan, result.Message));
                 return false;
             }
 
@@ -74,13 +77,15 @@ namespace Topshelf.Nancy
                 var result = NetSh.AddUrlAcl(prefix, user);
                 if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error(string.Format("[Topshelf.Nancy] Error adding URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
+                    Logger.Error(string.Format("[Topshelf.Nancy] Error adding URL Reservation {0} with command: netsh {1}. {2}", 
+                        prefix, result.CommandRan, result.Message));
                     return false;
                 }
 
                 if (result.ResultCode == NetShResultCode.UrlReservationAlreadyExists)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not add URL Reservation because it already exists. Treating as a success.");
+                    Logger.Warn(string.Format("[Topshelf.Nancy] Could not add URL Reservation {0} because it already exists. Treating as a success.",
+                        prefix));
                     return true;
                 }
             }

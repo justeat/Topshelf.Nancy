@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
 using Nancy.Hosting.Self;
 using Topshelf.Logging;
@@ -68,11 +69,14 @@ namespace Topshelf.Nancy
 
         public bool AddUrlReservations(bool shouldOpenFirewallPorts = false)
         {
-            Logger.Info("[Topshelf.Nancy] Adding URL Reservations");
+            var prefixes = GetPrefixes().ToList();
+            var urlText = prefixes.Count == 1 ? "url" : "urls";
+            var startMessage = string.Format("[Topshelf.Nancy] Adding Reservations for {0} {1}", prefixes.Count, urlText);
+            Logger.Info(startMessage);
 
             var user = GetUser();
 
-            foreach (var prefix in GetPrefixes())
+            foreach (var prefix in prefixes)
             {
                 var result = NetSh.AddUrlAcl(prefix, user);
                 if (result.ResultCode == NetShResultCode.Error)

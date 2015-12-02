@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
 using Nancy.Hosting.Self;
 using Topshelf.Logging;
@@ -29,13 +30,15 @@ namespace Topshelf.Nancy
 
                 if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
+                    var message = string.Format("[Topshelf.Nancy] Error deleting URL Reservation {0} with command: netsh {1}. {2}", prefix, result.CommandRan, result.Message);
+                    Logger.Error(message);
                     return false;
                 }
 
                 if (result.ResultCode == NetShResultCode.UrlReservationDoesNotExist)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not delete URL Reservation because it does not exist. Treating as a success.");
+                    var message = string.Format("[Topshelf.Nancy] Could not delete URL Reservation {0} because it does not exist. Treating as a success.", prefix);
+                    Logger.Warn(message);
                 }
             }
 
@@ -55,7 +58,8 @@ namespace Topshelf.Nancy
             var result = NetSh.OpenFirewallPorts(portList, user, firewallRuleName);
             if (result.ResultCode == NetShResultCode.Error)
             {
-                Logger.Error(string.Format("[Topshelf.Nancy] Error opening firewall port: netsh {0}. {1}", result.CommandRan, result.Message));
+                var message = string.Format("[Topshelf.Nancy] Error opening firewall ports {0}: netsh {1}. {2}", portList, result.CommandRan, result.Message);
+                Logger.Error(message);
                 return false;
             }
 
@@ -65,22 +69,25 @@ namespace Topshelf.Nancy
 
         public bool AddUrlReservations(bool shouldOpenFirewallPorts = false)
         {
-            Logger.Info("[Topshelf.Nancy] Adding URL Reservations");
+            var prefixes = GetPrefixes().ToList();
+            LogUrlReservations(prefixes);
 
             var user = GetUser();
 
-            foreach (var prefix in GetPrefixes())
+            foreach (var prefix in prefixes)
             {
                 var result = NetSh.AddUrlAcl(prefix, user);
                 if (result.ResultCode == NetShResultCode.Error)
                 {
-                    Logger.Error(string.Format("[Topshelf.Nancy] Error deleting URL Reservation with command: netsh {0}. {1}", result.CommandRan, result.Message));
+                    var message = string.Format("[Topshelf.Nancy] Error adding URL Reservation {0} with command: netsh {1}. {2}", prefix, result.CommandRan, result.Message);
+                    Logger.Error(message);
                     return false;
                 }
 
                 if (result.ResultCode == NetShResultCode.UrlReservationAlreadyExists)
                 {
-                    Logger.Warn("[Topshelf.Nancy] Could not add URL Reservation becuase it already exists. Treating as a success.");
+                    var message = string.Format("[Topshelf.Nancy] Could not add URL Reservation {0} because it already exists. Treating as a success.", prefix);
+                    Logger.Warn(message);
                     return true;
                 }
             }
@@ -88,6 +95,23 @@ namespace Topshelf.Nancy
             Logger.Info("[Topshelf.Nancy] URL Reservations added");
 
             return true;
+        }
+
+        private static void LogUrlReservations(IList<string> prefixes)
+        {
+            if (prefixes.Count == 0)
+            {
+                Logger.Warn("[Topshelf.Nancy] No URL reservations found.");
+            }
+            else if (prefixes.Count == 1)
+            {
+                Logger.Info("[Topshelf.Nancy] Adding Reservation for one URL: " + prefixes[0]);
+            }
+            else
+            {
+                var message = string.Format("[Topshelf.Nancy] Adding Reservations for {0} URLs.", prefixes.Count);
+                Logger.Info(message);
+            }
         }
 
         private string GetUser()

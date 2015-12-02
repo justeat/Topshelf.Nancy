@@ -70,9 +70,7 @@ namespace Topshelf.Nancy
         public bool AddUrlReservations(bool shouldOpenFirewallPorts = false)
         {
             var prefixes = GetPrefixes().ToList();
-            var urlText = prefixes.Count == 1 ? "url" : "urls";
-            var startMessage = string.Format("[Topshelf.Nancy] Adding Reservations for {0} {1}", prefixes.Count, urlText);
-            Logger.Info(startMessage);
+            LogUrlReservations(prefixes);
 
             var user = GetUser();
 
@@ -97,6 +95,23 @@ namespace Topshelf.Nancy
             Logger.Info("[Topshelf.Nancy] URL Reservations added");
 
             return true;
+        }
+
+        private static void LogUrlReservations(IList<string> prefixes)
+        {
+            if (prefixes.Count == 0)
+            {
+                Logger.Warn("[Topshelf.Nancy] No URL reservations found.");
+            }
+            else if (prefixes.Count == 1)
+            {
+                Logger.Info("[Topshelf.Nancy] Adding Reservation for one URL: " + prefixes[0]);
+            }
+            else
+            {
+                var message = string.Format("[Topshelf.Nancy] Adding Reservations for {0} URLs.", prefixes.Count);
+                Logger.Info(message);
+            }
         }
 
         private string GetUser()
